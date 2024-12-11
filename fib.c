@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 int fibRecursive(int input) {
-
    if (input < 2) {
       return input; 
    } else {
@@ -25,19 +24,29 @@ int fibIterative(int input) {
 }
 
 int main(int argc, char* argv[]){
+   // added check for argc
+   if (argc < 4) {
+      printf("Usage: %s <inputNumber> <option> <file>\n", argv[0]);
+      return 1;
+   }
+
    int inputNumber = atoi(argv[1]);
    char option = argv[2][0]; 
 
    FILE *file;
    file = fopen(argv[3], "r");
+   if (file == NULL) {
+      printf("Error: Could not open file %s\n", argv[3]); // added if cant open file
+      return 1;
+   }
 
    int fileNumber; 
    fscanf(file, "%d", &fileNumber); 
    fclose(file);
 
    int totalInput = inputNumber + fileNumber;
-   int decrement = 1;
-   totalInput -= decrement;  
+   int adjustment = 1;  // aligns input to a zero based index
+   totalInput -= adjustment;  
 
    int result;
    if (option == 'r') {
